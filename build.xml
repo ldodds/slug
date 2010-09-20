@@ -1,0 +1,204 @@
+<project name="slug" default="jar">
+   <description>slug -- an Internet crawler</description>
+
+   <!-- Allow property overriding -->
+   <property file=".ant.properties"/>
+   <property file="${user.home}/.ant.properties"/>
+   <property file="version.properties"/>
+
+   <property name="build" value="./build"/>
+   <property name="build.classes" value="${build}/classes"/>
+   <property name="build.tests" value="${build}/tests"/>
+   <property name="build.dist" value="${build}/dist"/>
+   <property name="build.dist.lib" value="${build}/dist/lib"/>
+		
+   <!-- Project Directories -->
+   <property name="java.dir"     value="src/java"/>
+   <property name="test.dir"     value="src/tests"/>
+   <property name="docs.dir"       value="docs"/>
+   <property name="javadoc.dir"      value="${docs.dir}/api"/>
+   <property name="lib.dir"      value="lib"/>
+   <property name="reports"  value="${build}/reports"/>
+   <property name="reports.junit"  value="${reports}/junit"/>
+   <property name="etc.dir"    value="etc"/>
+   <property name="schema.dir" value="${etc.dir}/schema"/>  
+   <property name="rules.dir"  value="${etc.dir}/rules"/>
+  
+   <!-- Java Build Properties -->
+   <property name="debug"        value="on"/>
+   <property name="optimize"     value="off"/>
+   <property name="deprecation"  value="off"/>
+   <property name="nowarn"       value="on"/>
+
+   <property name="app.name"     value="slug"/>
+
+   <path id="classpath">
+      <fileset dir="${lib.dir}">
+         <include name="**/*.jar"/>
+      </fileset>
+   </path>
+   
+   <path id="test.classpath">
+	  <path refid="classpath" />
+	  <pathelement location="${build.classes}"/>
+   </path>
+
+	<path id="unit-test.classpath">
+		<path refid="classpath" />
+		<pathelement location="${build.classes}"/>
+		<pathelement location="${build.tests}"/>
+	</path>
+			
+   <path id="util-classpath">
+      <path refid="classpath"/>
+      <pathelement location="${bin.dir}"/>
+   </path>
+    
+  <target name="clean" description="Clean">
+	<delete includeEmptyDirs="true" quiet="true">
+		<fileset dir="${build}"/>
+	</delete>
+  </target>
+
+  <target name="init">
+    <mkdir dir="${build}" />
+    <mkdir dir="${build.dist}"/>  	
+    <mkdir dir="${build.classes}" />
+  	<mkdir dir="${build.tests}" />
+    <mkdir dir="${reports}"/>
+  </target>
+  
+   <target name="build" depends="init"  description="Compile the application">
+      <javac srcdir="${java.dir}"
+             destdir="${build.classes}"
+             debug="${debug}"
+             optimize="${optimize}"
+             deprecation="${deprecation}"
+             nowarn="${nowarn}">
+        <classpath refid="classpath"/>
+      </javac>
+
+      <copy todir="${build.classes}" >
+         <fileset dir="${java.dir}" excludes="**/*.java"/>
+      </copy>
+
+    <copy todir="${build.classes}" >
+       <fileset dir="${schema.dir}" includes="**/*.rdfs"/>
+      </copy>
+    
+   </target>
+
+   <target name="build.tests" depends="build" description="Compile the tests">
+      <javac srcdir="${test.dir}"
+             destdir="${build.tests}"
+             debug="${debug}"
+             optimize="${optimize}"
+             deprecation="${deprecation}"
+             nowarn="${nowarn}">
+        <classpath refid="test.classpath"/>
+      </javac>
+      
+      <copy todir="${build.tests}" >
+         <fileset dir="${test.dir}" excludes="**/*.java"/>
+      </copy>      
+   </target>
+
+   <target name="build.all" depends="build, build.tests" description="Compile app and tests">
+   </target>
+
+   <target name="javadoc" description="Generate javadocs">
+      <javadoc
+           defaultexcludes="yes"
+           destdir="${javadoc.dir}"
+           author="true"
+           version="true"
+           use="true"
+           windowtitle="${app.name} API">
+       <fileset dir="${java.dir}" defaultexcludes="yes">
+         <include name="**/*.java" />
+       </fileset>           
+      </javadoc>
+   </target>
+
+   <target name="run-tests" depends="build.tests" description="run unit tests">   	
+	<mkdir dir="${reports.junit}"/>
+	<junit printsummary="yes" fork="yes" haltonerror="yes" haltonfailure="yes">
+		<sysproperty key="file.encoding" value="UTF-8" />
+		<classpath refid="unit-test.classpath"/>
+		<formatter type="xml"/>
+		<batchtest haltonfailure="no" todir="${reports.junit}">
+			<fileset dir="${build.tests}">
+				<include name="**/*AllTest*"/>
+			</fileset>
+		</batchtest>
+	</junit>
+   </target>
+
+
+   <target name="jar" depends="build" description="make jar file">
+      <jar destfile="${build}/${app.name}.jar"
+           basedir="${build.classes}">
+      </jar>
+   </target>
+
+   <target name="make-release" depends="clean, jar" description="make a numbered release">
+      <mkdir dir="${build.dist}"/>
+      <echo>Making src distribution</echo>
+      <zip destfile="${build.dist}/${app.name}-${version}-src.zip"
+           basedir="."
+           excludes="${build.dist}/**">
+      </zip>
+      <echo>Making binary distribution</echo>      
+      <zip destfile="${build.dist}/${app.name}-${version}-bin.zip"
+           basedir="."
+           excludes="${build.dist}/**,${reports.dir}/**,src/**">
+      </zip>
+   </target>
+  
+<!--
+  <target name="schemagen" description="generate code for slug.vocabulary package"> 
+    <antcall target="generate-schema-class">
+      <param name="schema" value="config.rdfs"/>
+      <param name="class" value="CONFIG"/>
+      <param name="uri" value="http://purl.org/NET/schemas/slug/config/"/>
+    </antcall>
+  </target>
+-->  
+
+  <target name="generate-schema-class" description="invoke jena.schemagen">
+    <echo>Generating ${class}.java</echo>
+    <tstamp>
+      <format property="now" pattern="dd-MM-yyyy hh:mm aa"/>
+    </tstamp>   
+    <java classname="jena.schemagen" classpathref="classpath" fork="yes">
+      <arg value="-i"/>
+      <arg value="${schema.dir}/${schema}"/>
+      <arg value="--header"/>
+      <arg value="%package%
+%imports%
+/* Code generated by schemagen using Ant at ${now} */       
+"/>
+      <arg value="-n"/>
+      <arg value="${class}"/>
+      <arg value="-o"/>
+      <arg value="${java.dir}/com/ldodds/slug/vocabulary"/>
+      <arg value="-a"/>
+      <arg value="${uri}"/>
+      <arg value="--package"/>
+      <arg value="com.ldodds.slug.vocabulary"/>
+      <arg value="--rdfs"/>
+    </java>   
+  </target>
+
+	
+  <target name="generate-location-mapping" description="Generate Location Mapping Config from memory">
+    <property name="mapping" value="mapping.n3"/>
+    <echo>Generating Location Mapping ${mapping} from source file ${memory}</echo>
+    <java classname="com.ldodds.slug.util.GenerateLocationMapping" classpathref="util-classpath" fork="yes">
+         <arg value="${memory}"/>
+       <arg value="${rules.dir}/memory-to-location-mapping.rl"/>  
+       <arg value="${mapping}"/>
+    </java>
+  </target>
+  
+</project>

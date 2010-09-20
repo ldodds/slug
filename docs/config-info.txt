@@ -1,0 +1,73 @@
+default
+A default Scutter configuration
+
+Memory: a file-based memory named memory.rdf
+Workers: 10 threads
+
+Consumers:
+* storer - stores HTTP responses in c:\temp\slug-cache
+* rdf-consumer - looks for rdfs:seeAlso links in scuttered content and adds them to the scutter task list.
+
+Filters:
+* single-fetch-filter - avoids loops by remembering which resources have been fetched
+* depth-filter - limits crawl depth to 3 links deep
+* regex-filter - blocks all URLs containing the word "livejournal"
+
+
+shallow-slow-scutter
+A Scutter which crawls only a shallow depth, with fewer workers
+   
+Memory: a file-based memory named memory.rdf
+Workers: 3 threads
+
+Consumers:
+* storer - stores HTTP responses in c:\temp\slug-cache
+* rdf-consumer - looks for rdfs:seeAlso links in scuttered content and adds them to the scutter task list.
+
+Filters:
+* single-fetch-filter - avoids loops by remembering which resources have been fetched
+* shallow-depth-filter - limits crawl depth to 1 link deep
+* regex-filter - blocks all URLs containing the word "livejournal"
+
+
+mapping-scutter
+A Scutter which simply discovers and maps connections between files using source/origin properties in its memory
+
+Memory: a file-based memory named memory.rdf
+Workers: 10 threads
+
+Consumers:
+* rdf-consumer - looks for rdfs:seeAlso links in scuttered content and adds them to the scutter task list.
+
+Filters:
+* single-fetch-filter - avoids loops by remembering which resources have been fetched
+* deep-depth-filter - limits crawl depth to 5 link deep
+
+persistent-scutter
+A Scutter that includes writing incoming data into a persistent memory. Note that the memory is different to that holdings Scutter persistent state.
+  
+Memory: a file-based memory named memory.rdf
+Workers: 10 threads
+
+Consumers:
+* storer - stores HTTP responses in c:\temp\slug-cache
+* rdf-consumer - looks for rdfs:seeAlso links in scuttered content and adds them to the scutter task list.
+* persistent-storer - stores HTTP responses in a Jena persistent model
+
+Filters:
+* single-fetch-filter - avoids loops by remembering which resources have been fetched
+* depth-filter - limits crawl depth to 3 links deep
+* regex-filter - blocks all URLs containing the word "livejournal"
+
+cache-builder
+
+Builds a local cache of fetched data, doesn't traverse RDF links to discover new resources.
+   
+Memory: a file-based memory named memory.rdf
+Workers: 10 threads
+
+Consumers:
+* storer - stores HTTP responses in c:\temp\slug-cache
+
+
+

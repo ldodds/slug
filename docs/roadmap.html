@@ -1,0 +1,82 @@
+<html>
+<head>
+<title>Slug: Releases</title>
+</head>
+
+<body>
+
+	<p align="center">
+		<a href="http://www.ldodds.com/projects/slug">
+			<img src="slug-small.jpg" border="0"/></a>
+	</p>
+
+	<p>
+		<h2 align="center">Slug: Roadmap</h2>
+	</p>
+
+	<p>	
+	This page contains some notes on the expected functionality that will be 
+	included in future iterations of Slug. Bear in mind that development is a 
+	part-time activity, with a priority set by what problems/features I either 
+	find interesting or necessary for my own projects. 
+	</p>
+	
+	<p>
+	Nagging is a good way to get features implemented. If I know someone is using 
+	the code, that's good motivation.</p>
+	
+	<p>
+	Of course an even better way to move things forward is to code it 
+	yourself and then share! If there's enough interest, perhaps the project can 
+	be moved to Sourceforge.
+	</p>
+	
+	<h4><code>alpha-3</code> "The Behaviour Release"</h4>
+		
+	<p>
+	Slug isn't very well behaved. It needs to:
+	</p>
+
+	<ul>
+		<li>Support the Robot Exclusion Protocol</li>
+		<li>Allow configuration of the <code>User-Agent</code> header</code>
+		<li>Implement throttling on a global and per-domain basis</li>
+		<li>Check additional HTTP status codes to "skip" more errors</li>
+		<li>Support white-listing of URLs</li>
+		<li>Expose and capture more statistics while in-progress</li>
+	</ul>
+
+	<p>
+	The following additional features will be useful:
+	</p>
+	
+	<ul>
+		<li>Support Content Negotiation to allow for additional RDF syntaxes</li>	
+		<li>Follow more than just <code>rdfs:seeAlso</code> links to find data, by 
+		allowing pluggable link discovery</li>
+		<li>Integrate a smushing utility for managing persistent data</li>
+		<li>Alter the Consumer components to be structured as a pipeline, enabling 
+		pre-processing of incoming content, e.g. to use GRDDL to extract data.</li>
+	</ul>
+		
+	<h4><code>alpha-4</code> "For Control Freaks"</h4>
+	
+	<p>
+	Slug needs to be easier to control. The Monitor component should be made 
+	pluggable to allow for a GUI or Web Application to be used to control the Scutter.
+	</p>
+			
+	<h4><code>beta-1</code> "Testing, Testing"</h4>
+	
+	<p>
+	Concentrate on additional unit and functional testing. Aim to have stabilised 
+	APIs, particular around the component model to aim for a stable 1.0 release.
+	</p>
+				
+	<hr/>
+	<font size="smaller">
+	Image courtesy of <a href="http://flickr.com/people/enygmatic/">Elroy Serrao</a>.
+	</font>
+</body>
+
+</html>

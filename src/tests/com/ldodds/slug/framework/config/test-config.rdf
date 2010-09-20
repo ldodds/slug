@@ -1,0 +1,78 @@
+<rdf:RDF  
+  xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+  xmlns:scutter="http://www.hackdiary.com/scutter/" 
+  xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" 
+  xmlns:dc="http://purl.org/dc/elements/1.1/"
+  xmlns:slug="http://purl.org/NET/schemas/slug/config/">
+
+	<slug:Scutter rdf:about="file-memory-scutter">
+		<slug:hasMemory rdf:resource="file-memory"/>			
+	</slug:Scutter>
+
+	<slug:Scutter rdf:about="db-memory-scutter">
+		<slug:hasMemory rdf:resource="db-memory"/>
+	</slug:Scutter>
+	
+	<slug:Scutter rdf:about="component-test-seq">
+     <!-- configures consumer pipeline for workers -->
+	 <slug:consumers>
+	   <rdf:Seq>
+	    <rdf:li rdf:nodeID="storer"/>
+	    <rdf:li rdf:nodeID="rdf-consumer"/>	    
+	   </rdf:Seq>	   
+	 </slug:consumers>	
+	</slug:Scutter>
+
+	<slug:Scutter rdf:about="component-test-resource">
+	 <slug:consumers rdf:nodeID="storer"/>	 
+	</slug:Scutter>
+
+	<slug:Scutter rdf:about="component-test-fail-with-literal">
+		<slug:workers>50</slug:workers>
+	</slug:Scutter>
+	
+	<slug:Memory rdf:about="file-memory">
+	  <slug:file>c:\projects\eclipse\workspace\memory.rdf</slug:file>
+	</slug:Memory>
+	
+   <slug:Memory rdf:about="db-memory">
+     <!-- name of the persistent model -->
+     <slug:modelURI rdf:resource="http://www.ldodds.com/projects/slug/my-memory"/>
+     
+     <!-- JDBC URL for database -->     
+     <slug:dbURL>jdbc:mysql://localhost/foo</slug:dbURL>
+     
+     <!-- database username and password -->
+     <slug:user>blah</slug:user>
+     <slug:pass>blah</slug:pass>
+     
+     <!-- Jena Database Engine name -->
+     <slug:dbName>MySQL</slug:dbName>
+     
+     <!-- JDBC Driver -->
+     <slug:driver>com.mysql.jdbc.Driver</slug:driver>
+     
+   </slug:Memory>
+
+   <slug:Consumer rdf:nodeID="storer">
+     <dc:title>ResponseStorer</dc:title>
+     <dc:description>Stores HTTP responses in a file system cache</dc:description>
+     <slug:impl>com.ldodds.slug.http.storage.ResponseStorer</slug:impl>
+     <slug:cache>c:\temp\slug</slug:cache>
+     <slug:memory rdf:nodeID="memory"/>
+   </slug:Consumer>
+
+   <slug:Consumer rdf:nodeID="rdf-consumer">
+     <dc:title>RDFConsumer</dc:title>
+     <dc:description>Discovers seeAlso links in RDF models and adds them to task list</dc:description>
+     <slug:impl>com.ldodds.slug.http.rdf.RDFParsingConsumer</slug:impl>
+     <slug:memory rdf:nodeID="memory"/>
+   </slug:Consumer>
+	
+   <slug:Consumer rdf:about="storer2">
+     <dc:title>ResponseStorer</dc:title>
+     <dc:description>Stores HTTP responses in a file system cache</dc:description>
+     <slug:impl>com.ldodds.slug.http.storage.ResponseStorer</slug:impl>
+   </slug:Consumer>	
+   
+</rdf:RDF>	

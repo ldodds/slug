@@ -1,0 +1,9 @@
+<?xml version="1.0" standalone="yes"?>
+<rdf:RDF xmlns:img="http://jibbering.com/2002/3/svg/#" xmlns:wn="http://xmlns.com/wordnet/1.6/" xmlns:foaf="http://xmlns.com/foaf/0.1/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:an="http://rdf.desire.org/vocab/recommend.rdf#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" xmlns:wot="http://xmlns.com/wot/0.1/" xmlns:contact="http://www.w3.org/2000/10/swap/pim/contact#" xmlns:air="http://www.megginson.com/exp/ns/airports#" >
+
+ <rdf:Description>
+  <rdfs:seeAlso rdf:resource="http://ldodds.com/ldodds.rdf" />
+ </rdf:Description>
+
+
+</rdf:RDF>

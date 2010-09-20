@@ -1,0 +1,80 @@
+<html>
+<head>
+<title>Slug: Install and Run</title>
+</head>
+
+<body>
+
+	<p align="center">
+		<a href="http://www.ldodds.com/projects/slug">
+			<img src="slug-small.jpg" border="0"/></a>
+	</p>
+
+	<p>
+		<h2 align="center">Slug: Install and Run</h2>
+	</p>
+	
+	<h3>Installation</h3>
+	
+	<p>
+	Installation is quite straight-forward. All required libraries and code are 
+	provided in the distribution for each <a href="releases.html">release</a>, so simply:
+	</p>
+
+	<ol>
+	  <li>Download the desired <a href="releases.html">release</a>. Ensure that 
+	  you save the file locally as some users have reported problems opening the 
+	  file directly in a browser.</li>
+	  <li>Unzip the distribution, e.g. in your home directory. You'll end up with 
+	  a new sub-directory <code>slug</code> containing all code and files.</li>
+	  <li>You may want to create a new environment variable <code>$SLUG_HOME</code> 
+	  or <code>%SLUG_HOME%</code> to refer to the location of the scutter. You'll 
+	  probably also want to add this directory to your PATH.</li>
+	  <li>Ensure you have Java 1.5 installed, you'll need this to run the scutter</li>
+	  <li>It's also recommended that you install <a href="http://ant.apache.org">Apache Ant</a>. 
+	  You'll definitely need this if you want to contribute to the project, locally customise 
+	  the code, or build it yourself. The provided Ant script (<code>$SLUG_HOME/build.xml</code>) 
+	  also includes a few helpful tools such as building the javadocs, etc. See the 
+	  <a href="tools.html">tools documentation</a> for notes on that.</li>
+	  <li>That's it, you're ready to configure and run a scutter</li>
+	</ol>
+	
+	<p>
+	<a name="running"><h3>Running the Scutter</h3></a>
+	</p>
+	
+	<p>
+	The Slug distribution includes shell scripts for running a scutter. Run <code>$SLUG_HOME/slug.sh</code> 
+	or <code>slug.bat</code> depending on your platform. These scripts configure the required 
+	Java <code>CLASSPATH</code>.
+	</p>
+
+	<p>
+	These scripts accept the following parameters. The majority are required:
+	</p>
+	
+	<table cols="2 rows="4" border="1">
+	 <tr><th>Parameter</th><th>Purpose</th><th>Required?</th></tr>
+	 <tr><td>-config</td><td>Path to a Slug <a href="config.html">configuration file</a></td>
+	 	<td>Yes</td></tr>
+	 <tr><td>-id</td><td>Identifier for scutter <a href="profiles.html">profile</code> as defined in 
+	 the above config. file</td><td>Yes</td></tr>
+	 <tr><td>-plan</td><td>Path to a "<a href="scutterplan.html">scutter plan</a>". i.e an RDF document 
+	 identifying the list of initial URLs to be crawled. The distribution includes a 
+	 simple example, <code>sample-plan.rdf</code></td><td>No, supply this or <code>-freshen</code>, or both</td></tr>
+	 <tr><td>-freshen</td><td>Indicates whether the scutter should add all previously 
+	 found URLs to its initial crawler plan. Used to "freshen" already discovered data</td>
+	 	<td>No, supply this or <code>-plan</code>, or both</td></tr>
+	</table>
+	
+	<p>
+
+	</p>
+	
+	<hr/>
+	<font size="smaller">
+	Image courtesy of <a href="http://flickr.com/people/enygmatic/">Elroy Serrao</a>.
+	</font>
+</body>
+
+</html>

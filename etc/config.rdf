@@ -1,0 +1,236 @@
+<?xml version='1.0'?>
+<rdf:RDF  
+  xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+  xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" 
+  xmlns:dc="http://purl.org/dc/elements/1.1/"
+  xmlns:slug="http://purl.org/NET/schemas/slug/config/">  
+
+   <rdf:Description rdf:about="">
+      <dc:title>Slug Configuration File</dc:title>
+      <dc:description>
+Configuration File for the Slug Semantic Web Crawler. Used to define crawler profiles 
+with different worker, memory, consumer and filter configurations.
+      </dc:description>      
+   </rdf:Description>
+   
+   <!-- select config from cmd-line parameter -->
+   
+   <slug:Scutter rdf:about="default">
+	 <dc:description>A default Scutter configuration</dc:description>
+	 
+	 <!-- configure global memory -->
+     <slug:hasMemory rdf:resource="memory"/>
+
+	 <!-- how many worker threads -->
+     <slug:workers>10</slug:workers>
+
+     <slug:userAgent>Slug Semantic Web Crawler (http://www.ldodds.com/projects/slug)</slug:userAgent>
+
+     <!-- configures consumers for incoming data -->
+	 <slug:consumers>
+	   <rdf:Seq>
+	    <rdf:li rdf:resource="storer"/>
+	    <rdf:li rdf:resource="rdf-parser"/>	    
+	    <rdf:li rdf:resource="rdf-follower"/>	    
+	   </rdf:Seq>	   
+	 </slug:consumers>
+	
+	 <!-- configures filter pipeline for controller -->
+	 <slug:filters>
+	   <rdf:Seq>
+	     <rdf:li rdf:resource="depth-filter"/>
+	     <rdf:li rdf:resource="regex-filter"/>	     
+	   </rdf:Seq>
+	 </slug:filters> 	 
+	 
+   </slug:Scutter>
+
+   <slug:Scutter rdf:about="shallow-slow-scutter">
+	 <dc:description>A Scutter which crawls only a shallow depth, with 
+	 fewer workers</dc:description>
+
+     <slug:hasMemory rdf:resource="memory"/>
+     <!-- fewer workers, so slower -->
+     <slug:workers>3</slug:workers>
+
+	 <!-- standard consumer components -->
+	 <slug:consumers>
+	   <rdf:Seq>
+	    <rdf:li rdf:resource="storer"/>
+	    <rdf:li rdf:resource="rdf-parser"/>
+	    <rdf:li rdf:resource="rdf-follower"/>	    	    
+	   </rdf:Seq>	   
+	 </slug:consumers>
+	
+	 <!-- alternate filters, using shallow-depth-filter -->
+	 <slug:filters>
+	   <rdf:Seq>
+	     <rdf:li rdf:resource="shallow-depth-filter"/>
+	     <rdf:li rdf:resource="regex-filter"/>	     
+	   </rdf:Seq>
+	 </slug:filters> 	 
+	 
+   </slug:Scutter>
+
+   <slug:Scutter rdf:about="mapping-scutter">
+	 <dc:description>A Scutter which simply discovers and maps 
+	 connections between files using source/origin properties in 
+	 its memory</dc:description>
+
+     <slug:hasMemory rdf:resource="memory"/>
+     <slug:workers>10</slug:workers>
+
+	 <!-- standard consumer components -->
+	 <slug:consumers>
+	   <rdf:Seq>
+	    <rdf:li rdf:resource="rdf-parser"/>	    
+	    <rdf:li rdf:resource="rdf-follower"/>	    
+	   </rdf:Seq>	   
+	 </slug:consumers>
+	
+	 <!-- alternate filters, using shallow-depth-filter -->
+	 <slug:filters>
+	   <rdf:Seq>
+	     <rdf:li rdf:resource="deep-depth-filter"/> 
+	   </rdf:Seq>
+	 </slug:filters> 	 
+	 
+   </slug:Scutter>
+
+   <slug:Scutter rdf:about="persistent-scutter">
+	 <dc:description>A Scutter that includes writing incoming data into 
+	 a persistent memory. Note that the memory is different to that 
+	 holdings Scutter persistent state.</dc:description>
+	 
+     <slug:hasMemory rdf:resource="memory"/>
+
+	 <!-- how many worker threads? -->
+     <slug:workers>10</slug:workers>
+
+     <!-- configures consumers for incoming data. Added persistent-storer -->
+	 <slug:consumers>
+	   <rdf:Seq>
+	    <rdf:li rdf:resource="storer"/>
+	    <rdf:li rdf:resource="rdf-parser"/>	    
+	    <rdf:li rdf:resource="rdf-follower"/>	    
+	    <rdf:li rdf:resource="persistent-storer"/>	    	    
+	   </rdf:Seq>	   
+	 </slug:consumers>
+	
+	 <!-- configures filter pipeline for controller -->
+	 <slug:filters>
+	   <rdf:Seq>
+	     <rdf:li rdf:resource="depth-filter"/>
+	     <rdf:li rdf:resource="regex-filter"/>	     
+	   </rdf:Seq>
+	 </slug:filters> 	 
+	 
+   </slug:Scutter>
+   
+   <slug:Scutter rdf:about="cache-builder">
+	 <dc:description>Builds a local cache of fetched data, doesn't 
+	 perform any parsing or link traversal</dc:description>
+	 
+     <slug:hasMemory rdf:resource="memory"/>
+
+	 <!-- how many worker threads? -->
+     <slug:workers>10</slug:workers>
+
+     <!-- configures consumers for incoming data -->
+	 <slug:consumers>
+	   <rdf:Seq>
+	    <rdf:li rdf:resource="storer"/>
+	   </rdf:Seq>	   
+	 </slug:consumers>
+		 
+   </slug:Scutter>   
+   
+   <slug:Consumer rdf:about="storer">
+     <dc:title>ResponseStorer</dc:title>
+     <dc:description>Stores HTTP responses in a file system cache</dc:description>
+   
+     <slug:impl>com.ldodds.slug.http.storage.ResponseStorer</slug:impl>
+     <!-- must be a directory, will get created automatically if it doesn't exist -->
+     <slug:cache>/tmp/slug/rdf</slug:cache>
+   </slug:Consumer>
+
+   <slug:Consumer rdf:about="persistent-storer">
+     <dc:title>Database-backed ResponseStorer</dc:title>
+     <dc:description>Stores HTTP responses in Jena persistent model</dc:description>
+     <slug:impl>com.ldodds.slug.http.storage.PersistentResponseStorer</slug:impl>
+     <!-- must be reference to a Memory -->
+     <slug:hasMemory rdf:resource="db-memory"/>
+   </slug:Consumer>
+
+   <slug:Consumer rdf:about="rdf-parser">
+     <dc:title>RDFParser</dc:title>
+     <dc:description>Parses results as RDF</dc:description>
+     <slug:impl>com.ldodds.slug.http.rdf.RDFParsingConsumer</slug:impl>
+   </slug:Consumer>
+
+   <slug:Consumer rdf:about="rdf-follower">
+     <dc:title>RDFConsumer</dc:title>
+     <dc:description>Discovers seeAlso links in RDF models and adds them to task list. Must be proceeded 
+by a consumer that generates RDF</dc:description>
+     <slug:impl>com.ldodds.slug.http.rdf.ModelDependentConsumerConsumer</slug:impl>
+   </slug:Consumer>
+
+   <slug:Filter rdf:about="depth-filter">
+     <dc:title>Limit Depth of Crawling</dc:title>
+	 <slug:impl>com.ldodds.slug.http.filter.DepthFilter</slug:impl>
+	 <!-- if depth >= this then url not included. Initial depth is 0 -->
+	 <slug:depth>3</slug:depth>
+   </slug:Filter>
+
+   <slug:Filter rdf:about="deep-depth-filter">
+     <dc:title>Limit Depth of Crawling</dc:title>
+	 <slug:impl>com.ldodds.slug.http.filter.DepthFilter</slug:impl>
+	 <!-- if depth >= this then url not included. Initial depth is 0 -->
+	 <slug:depth>5</slug:depth>
+   </slug:Filter>
+   
+   <slug:Filter rdf:about="medium-depth-filter">
+     <dc:title>Limit Depth of Crawling</dc:title>
+	 <slug:impl>com.ldodds.slug.http.filter.DepthFilter</slug:impl>
+	 <!-- if depth >= this then url not included. Initial depth is 0 -->
+	 <slug:depth>3</slug:depth>
+   </slug:Filter>
+
+   <slug:Filter rdf:about="shallow-depth-filter">
+     <dc:title>Limit Depth of Crawling</dc:title>
+	 <slug:impl>com.ldodds.slug.http.filter.DepthFilter</slug:impl>
+	 <!-- if depth >= this then url not included. Initial depth is 0 -->
+	 <slug:depth>1</slug:depth>
+   </slug:Filter>
+   
+   <slug:Filter rdf:about="regex-filter">
+     <dc:title>Block URLs based on Regex</dc:title>
+	 <slug:impl>com.ldodds.slug.http.filter.RegexFilter</slug:impl>
+	 <!-- regular expression, if matches, then url not included -->
+	 <slug:filter>livejournal</slug:filter>
+   </slug:Filter>
+
+   <slug:Memory rdf:about="memory">
+     <slug:file>/tmp/slug/memory.rdf</slug:file>
+   </slug:Memory>
+
+   <slug:Memory rdf:about="db-memory">
+     <!-- name of the persistent model -->
+     <slug:modelURI rdf:resource="CHANGEME"/>
+     
+     <!-- JDBC URL for database -->     
+     <slug:dbURL>jdbc:mysql://localhost/CHANGEME</slug:dbURL>
+     
+     <!-- database username and password -->
+     <slug:user>CHANGEME</slug:user>
+     <slug:pass>CHANGEME</slug:pass>
+     
+     <!-- Jena Database Engine name -->
+     <slug:dbName>MySQL</slug:dbName>
+     
+     <!-- JDBC Driver -->
+     <slug:driver>com.mysql.jdbc.Driver</slug:driver>
+     
+   </slug:Memory>
+   
+</rdf:RDF>

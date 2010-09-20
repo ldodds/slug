@@ -1,0 +1,106 @@
+<?xml version="1.0"?>
+<rdf:RDF
+      xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+      xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+      xmlns:foaf="http://xmlns.com/foaf/0.1/"
+      xmlns:dc="http://purl.org/dc/elements/1.1/"
+      xmlns:owl="http://www.w3.org/2002/07/owl#"
+      xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+      xml:base="http://purl.org/NET/schemas/slug/config/"
+      xmlns="http://purl.org/NET/schemas/slug/config/">
+      
+	<rdf:Description rdf:about="">
+		<dc:title>Scutter Config Schema</dc:title>
+		<dc:created>2006-01-11</dc:created>
+		<foaf:maker>
+		  <foaf:Person>
+		    <foaf:name>Leigh Dodds</foaf:name>
+		    <foaf:mbox rdf:resource="mailto:leigh@ldodds.com"/>
+		    <rdfs:seeAlso rdf:resource="http://www.ldodds.com/ldodds.rdf"/>
+		  </foaf:Person>
+		</foaf:maker>
+		<dc:description>Properties for describing Scutter configuration schema, as 
+		implemented by the Slug Semantic Web Crawler</dc:description> 
+		
+		<!-- TODO add rdfs:seeAlso to Slug DOAP file -->		
+	</rdf:Description>
+
+	<rdfs:Class rdf:about="MemoryHolder">
+	</rdfs:Class>
+	
+	<rdfs:Class rdf:about="Scutter">	
+	</rdfs:Class>
+		
+	<rdf:Property rdf:about="hasMemory">
+		<rdfs:domain rdf:resource="MemoryHolder"/>
+		<rdfs:range rdf:resource="Memory"/>
+	</rdf:Property>
+	
+	<rdfs:Class rdf:about="Memory">
+	</rdfs:Class>
+	
+	<rdfs:Class rdf:about="FileMemory">
+		<rdfs:subClassOf rdf:resource="Memory"/>
+	</rdfs:Class>
+	
+	<rdfs:Class rdf:about="DatabaseMemory">
+		<rdfs:subClassOf rdf:resource="Memory"/>
+	</rdfs:Class>
+		
+	<rdf:Property rdf:about="file">
+		<rdfs:domain rdf:resource="FileMemory"/>	
+	</rdf:Property>
+	
+	<rdf:Property rdf:about="modelURI">
+		<rdfs:domain rdf:resource="DatabaseMemory"/>
+	</rdf:Property>
+	
+	<rdf:Property rdf:about="dbURL">
+		<rdfs:domain rdf:resource="DatabaseMemory"/>
+	</rdf:Property>
+
+	<rdf:Property rdf:about="dbName">
+		<rdfs:domain rdf:resource="DatabaseMemory"/>
+	</rdf:Property>
+
+	<rdf:Property rdf:about="user">
+		<rdfs:domain rdf:resource="DatabaseMemory"/>
+	</rdf:Property>
+
+	<rdf:Property rdf:about="pass">
+		<rdfs:domain rdf:resource="DatabaseMemory"/>
+	</rdf:Property>
+
+	<rdf:Property rdf:about="driver">
+		<rdfs:domain rdf:resource="DatabaseMemory"/>
+	</rdf:Property>
+	
+	<rdfs:Class rdf:about="Component">
+	</rdfs:Class>
+
+	<rdf:Property rdf:about="impl">
+		<rdfs:domain rdf:resource="Component"/>
+	</rdf:Property>
+
+	<rdf:Property rdf:about="consumers">
+			<rdfs:domain rdf:resource="Scutter"/>
+	</rdf:Property>
+
+	<rdf:Property rdf:about="filters">
+			<rdfs:domain rdf:resource="Scutter"/>
+	</rdf:Property>
+
+	<rdf:Property rdf:about="workers">
+			<rdfs:domain rdf:resource="Scutter"/>
+	</rdf:Property>
+
+	<rdf:Property rdf:about="cache">
+	</rdf:Property>
+
+	<rdf:Property rdf:about="depth">
+	</rdf:Property>
+	
+	<rdf:Property rdf:about="filter">
+	</rdf:Property>
+	
+</rdf:RDF>

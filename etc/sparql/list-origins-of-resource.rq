@@ -1,0 +1,15 @@
+# List the origins associated with a given Representation
+#
+# i.e. which resources refer to this resource?
+#
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX dc: <http://purl.org/dc/elements/1.1/>
+PREFIX scutter: <http://purl.org/net/scutter/>
+SELECT ?origin
+WHERE
+{
+  ?representation a scutter:Representation.
+  ?representation scutter:origin ?origin.
+  ?representation scutter:source <http://www.ldodds.com/ldodds.rdf>.
+}

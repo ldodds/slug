@@ -1,0 +1,15 @@
+# List the mime types encountered by the scutter, 
+# limiting those results to just the successful fetches
+# 
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX dc: <http://purl.org/dc/elements/1.1/>
+PREFIX scutter: <http://purl.org/net/scutter/>
+SELECT DISTINCT ?mimetype
+WHERE
+{
+  ?representation scutter:fetch ?fetch.
+  ?fetch scutter:status "200".
+  ?fetch scutter:contentType ?mimetype.
+}
+ORDER BY ASC(?mimetype)

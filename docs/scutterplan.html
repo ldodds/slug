@@ -1,0 +1,45 @@
+<html>
+<head>
+<title>Slug: Scutterplan</title>
+</head>
+
+<body>
+
+	<p align="center">
+		<a href="http://www.ldodds.com/projects/slug">
+			<img src="slug-small.jpg" border="0"/></a>
+	</p>
+
+	<p>
+		<h2 align="center">Slug: Scutterplan</h2>
+	</p>
+		
+	<p>
+	A Scutterplan is an RDF file that serves as an index from which a Scutter 
+	can begin harvesting content. Typically Scutters are designed to follow
+	<code>rdfs:seeAlso</code> links in RDF documents, but other behaviours are 
+	legitimate (e.g. fetching data from all URIs mentioned in a document).
+	</p>
+			
+	<p>
+	Here is the simplest possible Scutterplan:
+	</p>
+				
+	<pre>
+<code>
+&lt;rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" 
+  xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#">
+ &lt;rdf:Description>
+  &lt;rdfs:seeAlso rdf:resource="http://ldodds.com/ldodds.rdf" />
+ &lt;/rdf:Description>
+&lt;/rdf:RDF>
+</code>	
+	</pre>
+					
+	<hr/>
+	<font size="smaller">
+	Image courtesy of <a href="http://flickr.com/people/enygmatic/">Elroy Serrao</a>.
+	</font>
+</body>
+
+</html>

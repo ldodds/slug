@@ -1,0 +1,17 @@
+Level.CONFIG
+  Notices about configuration
+
+Level.INFO
+  Crawler events: starting/stopping/etc
+  In-crawl statistics updates
+
+Level.FINE
+  Completion and Failure Notices from tasks
+  Addition of tasks
+
+Level.FINER
+  Loading/saving files
+  Component creation
+  
+Level.FINEST
+  Trace level communications, e.g. individual threads starting and stopping

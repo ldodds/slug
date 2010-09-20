@@ -1,0 +1,17 @@
+# List the crawl history for a given Representation
+#
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX dc: <http://purl.org/dc/elements/1.1/>
+PREFIX scutter: <http://purl.org/net/scutter/>
+SELECT ?date ?status ?contentType ?rawTripleCount
+WHERE
+{
+  ?representation scutter:fetch ?fetch.
+  ?fetch dc:date ?date.
+  OPTIONAL { ?fetch  scutter:status ?status. }
+  OPTIONAL { ?fetch scutter:contentType ?contentType. }
+  OPTIONAL { ?fetch scutter:rawTripleCount ?rawTripleCount. }
+  ?representation scutter:source <http://www.ldodds.com/ldodds.rdf>.
+}
+ORDER BY DESC(?date)

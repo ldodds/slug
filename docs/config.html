@@ -1,0 +1,100 @@
+<html>
+<head>
+<title>Slug: Configuration</title>
+</head>
+
+<body>
+
+	<p align="center">
+		<a href="http://www.ldodds.com/projects/slug">
+			<img src="slug-small.jpg" border="0"/></a>
+	</p>
+
+	<p>
+		<h2 align="center">Slug: Configuration</h2>
+	</p>
+
+	<p>	
+	This page contains some notes on how to configure the Slug crawler.
+	</p>
+	
+	<p>
+	<h3>The Configuration File</h3>
+	</p>
+	
+	<p>
+	Slug requires a configuration file in order to configure a number of settings that 
+	describe how the crawler will operate. Collectively these settings are known as a 
+	<a href="profile.html">profile</a>.
+	</p>
+	
+	<p>
+	These settings include details such as:
+	</p>
+	
+	<ul>
+		<li>The number of threads active during the crawl</li>
+		<li>Where/how the crawler stores its <a href="memory.html">memory</a></li>
+		<li>Which components will process retrieved data, e.g. to persist it</li>
+		<li>How the crawler will apply filters (if any) to newly found URLs</li>
+	</ul>
+	
+	<p>
+	The Slug distribution includes a sample config file <code>config.rdf</code> that 
+	demonstrates how to configure all of the current components.
+	</p>
+	
+	<p>
+	The configuration file is expressed as RDF/XML. A given configuration file 
+	may contain entries for more than one <a href="profile.html">profile</a>. 
+	Therefore when running the scutter one must provide the identifier of a 
+	Scutter described in the configuration. This is specified with the <code>-id</code> 
+	parameter, see <a href="install.html#running">Running the Scutter</a>.
+	</p>
+	
+	<p>
+	<a name="schema"><h3>The Configuration Schema</h3></a>
+	</p>
+	
+	<p>
+	The complete schema for the Scutter configuration is available in 
+	<code>etc/schema/config.rdfs</code> in the distribution. It is also 
+	<a href="http://purl.org/NET/schemas/slug/config/config.rdfs">available online</a>
+	</p>
+	
+	<p>
+	The namespace URI is <code>http://purl.org/NET/schemas/slug/config/</code>.
+	</p>
+	
+	<p>
+	The preferred namespace prefix is <code>slug</code>.
+	</p>
+	
+	<p>
+	The following sections describe some of the key classes and relationships.
+	</p>
+	
+	<p>
+	<h4>Scutter</h4>
+	</p>
+	
+	<p>
+	The <code>slug:Scutter</code> class describes an individual crawler. A given 
+	configuration file may describe more than one crawler.
+	</p>
+	
+	<p>
+	<a name="example"><h3>Configuration Example</h3></a>
+	</p>
+	
+	<p>
+	For now see <a href="config.rdf">config.rdf</a> for example configurations.
+	</p>
+	
+	<hr/>
+	<font size="smaller">
+	Image courtesy of <a href="http://flickr.com/people/enygmatic/">Elroy Serrao</a>.
+	</font>
+</body>
+
+</html>

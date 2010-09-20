@@ -1,0 +1,16 @@
+@prefix :        <#> .
+
+[]    <http://jena.hpl.hp.com/2004/08/location-mapping#mapping>
+              [ <http://jena.hpl.hp.com/2004/08/location-mapping#altName>
+                        "C:\\Documents and Settings\\ccslrd\\slug-cache\\ldodds.com\\ldodds-documents.rdf" ;
+                <http://jena.hpl.hp.com/2004/08/location-mapping#name>
+                        "http://ldodds.com/ldodds-documents.rdf"
+              ] .
+
+[]    <http://jena.hpl.hp.com/2004/08/location-mapping#mapping>
+              [ <http://jena.hpl.hp.com/2004/08/location-mapping#altName>
+                        "C:\\Documents and Settings\\ccslrd\\slug-cache\\mymarkup.net\\foaf.rdf" ;
+                <http://jena.hpl.hp.com/2004/08/location-mapping#name>
+                        "http://mymarkup.net/foaf.rdf"
+              ] .
+
